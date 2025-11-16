@@ -1,0 +1,102 @@
+<Container py={{ base: 14, md: 20 }}>
+        <Stack
+          position="relative"
+          spacing={{ base: 10, md: 12 }}
+          bg="white"
+          borderRadius="3xl"
+          boxShadow="2xl"
+          border="1px solid"
+          borderColor="brand.100"
+          px={{ base: 6, md: 10 }}
+          py={{ base: 10, md: 14 }}
+          overflow="hidden"
+        >
+          <Box
+            position="absolute"
+            top="-120px"
+            right="-80px"
+            w="260px"
+            h="260px"
+            bgGradient="radial(brand.200 0%, transparent 70%)"
+            opacity={0.4}
+            filter="blur(60px)"
+          />
+          <Box
+            position="absolute"
+            bottom="-140px"
+            left="-100px"
+            w="320px"
+            h="320px"
+            bgGradient="radial(accent.200 0%, transparent 70%)"
+            opacity={0.25}
+            filter="blur(70px)"
+          />
+
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 8, md: 10 }} zIndex={1}>
+            <Stack spacing={5} textAlign={{ base: "center", md: "left" }}>
+              <Badge alignSelf={{ base: "center", md: "flex-start" }} colorScheme="accent" borderRadius="full" px={4} py={1}>
+                What We Are
+              </Badge>
+              <Heading fontSize={{ base: "2xl", md: "3xl" }} lineHeight="1.2">
+                A collaborative foundation transforming health and education ecosystems
+              </Heading>
+              <Text fontSize={{ base: "md", md: "lg" }} color="gray.600">
+                Founded on principles of collaboration and measurable impact, the Aatman Foundation bridges gaps in
+                knowledge, implementation, and policy. Our trustees and board members bring together expertise from public
+                health, academia, corporate leadership, and social innovation, making us a trusted partner for
+                system-strengthening initiatives.
+              </Text>
+            </Stack>
+
+            <Stack spacing={5} textAlign={{ base: "center", md: "left" }}>
+              <Badge alignSelf={{ base: "center", md: "flex-start" }} colorScheme="brand" borderRadius="full" px={4} py={1}>
+                Our Mission
+              </Badge>
+              <Heading fontSize={{ base: "2xl", md: "3xl" }} lineHeight="1.2">
+                Strengthening capacities with knowledge, training, and resources
+              </Heading>
+              <Text fontSize={{ base: "md", md: "lg" }} color="gray.600">
+                We empower individuals, institutions, and systems through tailored capacity-building, evidence-led
+                consulting, and accessible resources. By co-creating strategies with stakeholders, we ensure sustainable,
+                community-rooted solutions that drive dignity-centered outcomes.
+              </Text>
+            </Stack>
+          </SimpleGrid>
+
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 6, md: 10 }} zIndex={1}>
+            {[
+              {
+                label: "Expert-led Partnerships",
+                copy: "Guided by leaders across public health, education, technology, and social impact.",
+              },
+              {
+                label: "Evidence-first Approach",
+                copy: "Designing interventions rooted in data, research, and lived community wisdom.",
+              },
+              {
+                label: "Lasting Outcomes",
+                copy: "Building resilient ecosystems that continue to thrive beyond program timelines.",
+              },
+            ].map((item) => (
+              <Stack
+                key={item.label}
+                spacing={3}
+                bg="gray.50"
+                borderRadius="2xl"
+                p={{ base: 5, md: 6 }}
+                border="1px solid"
+                borderColor="brand.100"
+                boxShadow="lg"
+                textAlign={{ base: "center", md: "left" }}
+              >
+                <Heading size="sm" color="brand.600">
+                  {item.label}
+                </Heading>
+                <Text fontSize="sm" color="gray.600">
+                  {item.copy}
+                </Text>
+              </Stack>
+            ))}
+          </SimpleGrid>
+        </Stack>
+      </Container>
