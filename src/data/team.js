@@ -34,7 +34,7 @@ export const teamMembers = [
   {
     id: "Arun_Satija",
     name: "Mr. Arun Satija",
-    role: "Director of Phytochemistry",
+    role: "Strategic Head",
     image:
       "https://res.cloudinary.com/dlsv90kui/image/upload/v1758470870/arunsir_lx5hur.jpg",
     shortBio:
@@ -45,6 +45,15 @@ export const teamMembers = [
       "Founded and scaled an international IT enterprise through to acquisition",
       "Advises start-ups on strategy, fundraising, and sustainable growth",
       "Drives research translation and innovation ecosystems within the Foundation",
+    ],
+  },
+  {
+    id: "awadhesh_srivastava",
+    name: "Vaidya Awadhesh Kumar Srivastava",
+    designation: null,
+    bio: [
+      "Vaidya Awadhesh Kumar Srivastava is a respected Ayurveda professional with over 45 years of service across education, government policy, and institutional governance.",
+      "His experience spans curriculum design, policy formulation, and national Ayurveda initiatives, and he continues to guide Aatman Foundation's training and development programs in alignment with National AYUSH Mission objectives.",
     ],
   },
   {

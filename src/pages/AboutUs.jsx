@@ -149,15 +149,7 @@ const advisoryBoardMembers = [
       "Currently serving as Consultant (Ayurveda) at the HRD Cell, CCRAS, New Delhi, he focuses on training, capacity building, and human resource development while guiding Aatman Foundation to integrate classical Ayurvedic wisdom with modern holistic well-being.",
     ],
   },
-  {
-    id: "awadhesh_srivastava",
-    name: "Vaidya Awadhesh Kumar Srivastava",
-    designation: null,
-    bio: [
-      "Vaidya Awadhesh Kumar Srivastava is a respected Ayurveda professional with over 45 years of service across education, government policy, and institutional governance.",
-      "His experience spans curriculum design, policy formulation, and national Ayurveda initiatives, and he continues to guide Aatman Foundation's training and development programs in alignment with National AYUSH Mission objectives.",
-    ],
-  },
+  
   {
     id: "ajay_plaha",
     name: "Mr. Ajay Plaha",
@@ -204,6 +196,9 @@ const advisoryBoardMembers = [
     ],
   },
 ];
+
+const mentors = teamMembers.filter((member) => member.id === "Sakshi_Sharma");
+const showcaseMembers = teamMembers.filter((member) => member.id !== "Sakshi_Sharma");
 
 function AboutUs() {
   return (
@@ -627,7 +622,7 @@ function AboutUs() {
           </Stack>
 
           <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} spacing={{ base: 8, md: 10 }}>
-            {teamMembers.slice(0, 6).map((member) => (
+            {showcaseMembers.slice(0, 6).map((member) => (
               <Stack
                 key={member.id}
                 spacing={0}
@@ -784,6 +779,102 @@ function AboutUs() {
                         {paragraph}
                       </Text>
                     ))}
+                  </Stack>
+                </Stack>
+              ))}
+            </SimpleGrid>
+          </Stack>
+        </Container>
+      </Box>
+
+      <Box bg="#fff9fb" py={{ base: 14, md: 20 }}>
+        <Container>
+          <Stack spacing={{ base: 8, md: 12 }}>
+            <Stack spacing={3} textAlign="center" maxW="3xl" mx="auto">
+              <Badge
+                alignSelf="center"
+                bg="rgba(255, 255, 255, 0.85)"
+                color="brand.600"
+                borderRadius="full"
+                px={4}
+                py={1}
+                fontWeight="semibold"
+                letterSpacing="wide"
+                fontSize={{ base: "sm", md: "md" }}
+              >
+                Mentor
+              </Badge>
+              <Heading fontSize={{ base: "3xl", md: "4xl" }} color="#1c1234">
+                Guiding innovators with hands-on pharmaceutical expertise
+              </Heading>
+              <Text fontSize={{ base: "md", md: "lg" }} color="rgba(28, 18, 52, 0.72)">
+                Our mentor blends research rigour, regulatory insight, and product strategy to coach teams building the next
+                generation of healthcare solutions.
+              </Text>
+            </Stack>
+
+            <SimpleGrid columns={{ base: 1, lg: 1 }} spacing={{ base: 6, md: 8 }}>
+              {mentors.map((member) => (
+                <Stack
+                  key={member.id}
+                  spacing={5}
+                  bg="white"
+                  borderRadius="3xl"
+                  boxShadow="0 18px 45px rgba(28, 18, 52, 0.08)"
+                  p={{ base: 6, md: 8 }}
+                  border="1px solid rgba(255, 142, 213, 0.12)"
+                >
+                  <Flex align={{ base: "flex-start", md: "center" }} gap={5}>
+                    <Avatar
+                      name={member.name}
+                      src={member.image}
+                      size="lg"
+                      bg="white"
+                      color="#1c1234"
+                      border="2px solid white"
+                      boxShadow="0 12px 24px rgba(28, 18, 52, 0.1)"
+                    />
+                    <Stack spacing={1} flex="1" minW="0">
+                      <Heading size="md" color="#1c1234">
+                        {member.name}
+                      </Heading>
+                      {member.role ? (
+                        <Text fontWeight="semibold" color="#0f7fbf">
+                          {member.role}
+                        </Text>
+                      ) : null}
+                    </Stack>
+                  </Flex>
+                  <Stack spacing={3}>
+                    {member.shortBio ? (
+                      <Text color="rgba(28, 18, 52, 0.75)" fontSize="sm" lineHeight="1.7">
+                        {member.shortBio}
+                      </Text>
+                    ) : null}
+                    {member.longBio ? (
+                      <Text color="rgba(28, 18, 52, 0.75)" fontSize="sm" lineHeight="1.7">
+                        {member.longBio}
+                      </Text>
+                    ) : null}
+                    {member.highlights ? (
+                      <Stack spacing={2}>
+                        {member.highlights.map((highlight) => (
+                          <Flex key={highlight} align="flex-start" gap={3}>
+                            <Box
+                              w={2.5}
+                              h={2.5}
+                              borderRadius="full"
+                              bgGradient="linear(to-br, accent.400, brand.400)"
+                              flexShrink={0}
+                              mt={1}
+                            />
+                            <Text fontSize="sm" color="rgba(28, 18, 52, 0.8)">
+                              {highlight}
+                            </Text>
+                          </Flex>
+                        ))}
+                      </Stack>
+                    ) : null}
                   </Stack>
                 </Stack>
               ))}
