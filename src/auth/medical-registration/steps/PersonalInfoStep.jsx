@@ -138,7 +138,7 @@ function PersonalInfoStep({
                 onBlur={onBlur("personalPhoto")}
               />
               <FormHelperText fontSize="xs" color="gray.500">
-                Upload a clear portrait JPEG/PNG under 3 MB.
+                Upload a clear portrait JPEG/PNG under 5 MB.
               </FormHelperText>
               {personalPhotoFileName && (
                 <FormHelperText fontSize="sm" color="green.600">

@@ -157,22 +157,22 @@ function Navbar() {
       </Box> */}
 
       <Container maxW="8xl" py={3}>
-        <Flex align="center" justify="space-between" gap={8}>
+        <Flex align="center" justify="space-between" gap={6}>
           <HStack spacing={{ base: 4, md: 10 }} align="center" w="full">
             <HStack
-              spacing={{ base: 3, md: 6 }}
+              spacing={{ base: 3, md: 8 }}
               align="center"
               flex="1"
               justify="flex-start"
               flexWrap="wrap"
             >
               <Image
-                w={{ base: 12, md: 16 }}
+                w={{ base: 12, md: 20 }}
                 src="/Aatman.png"
                 alt="Aatman Foundation"
               />
               <Image
-                w={{ base: 14, md: 44 }}
+                w={{ base: 14, md: 56 }}
                 src="/logo (1).png"
                 alt="AYUSH"
                 display={{ base: "none", sm: "block" }}
@@ -183,12 +183,12 @@ function Navbar() {
                 alt="Swachh Bharat"
                 display={{ base: "none", md: "block" }}
               />
-              <Image
+              {/* <Image
                 w={{ base: 12, md: 12 }}
                 src="/img2.jpeg"
                 alt="Partner logo"
                 display={{ base: "none", md: "block" }}
-              />
+              /> */}
             </HStack>
             <Divider
               orientation="vertical"

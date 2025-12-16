@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Avatar,
+  AspectRatio,
   Badge,
   Box,
   Button,
@@ -15,6 +16,8 @@ import {
   SimpleGrid,
   Stack,
   Text,
+  keyframes,
+  usePrefersReducedMotion,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { teamMembers } from "../data/team.js";
@@ -200,7 +203,25 @@ const advisoryBoardMembers = [
 const mentors = teamMembers.filter((member) => member.id === "Sakshi_Sharma");
 const showcaseMembers = teamMembers.filter((member) => member.id !== "Sakshi_Sharma");
 
+const marqueeSlide = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+`;
+
 function AboutUs() {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  const marqueeLogos = [
+    { src: "/ijar_logo.jpeg", alt: "IJAR logo" },
+    { src: "/national_ayush_UP.jpg", alt: "National AYUSH Uttar Pradesh logo" },
+  ];
+
+  const marqueeAnimation = prefersReducedMotion ? "none" : `${marqueeSlide} 18s linear infinite`;
+
   return (
     <Box>
       <Box
@@ -345,6 +366,112 @@ function AboutUs() {
               />
             </Box>
           </Flex>
+        </Container>
+      </Box>
+
+      <Box
+        bgGradient="linear(to-br, rgba(15, 127, 191, 0.08), rgba(255, 132, 209, 0.08))"
+        position="relative"
+        overflow="hidden"
+      >
+        <Box
+          position="absolute"
+          top="-120px"
+          left="-80px"
+          w="280px"
+          h="280px"
+          bgGradient="radial(circle at 50% 50%, rgba(255, 255, 255, 0.65), transparent 70%)"
+          filter="blur(60px)"
+        />
+        <Box
+          position="absolute"
+          bottom="-140px"
+          right="-100px"
+          w="320px"
+          h="320px"
+          bgGradient="radial(circle at 50% 50%, rgba(255, 132, 209, 0.55), transparent 70%)"
+          filter="blur(70px)"
+        />
+        <Container py={{ base: 14, md: 20 }} position="relative" zIndex={1}>
+          <Grid
+            templateColumns={{ base: "1fr", lg: "1.1fr 0.9fr" }}
+            gap={{ base: 10, md: 12 }}
+            alignItems="center"
+          >
+            <Stack spacing={{ base: 5, md: 7 }}>
+              <Badge
+                alignSelf="flex-start"
+                bg="rgba(15, 127, 191, 0.15)"
+                color="#0f7fbf"
+                borderRadius="full"
+                px={4}
+                py={1}
+                fontWeight="semibold"
+                letterSpacing="wide"
+              >
+                Foundation film
+              </Badge>
+              <Heading fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }} color="#1c1234">
+                A quick look at the Aatman Foundation story
+              </Heading>
+              <Text fontSize={{ base: "md", md: "lg" }} color="rgba(28, 18, 52, 0.78)" lineHeight="1.7">
+                Walk through our purpose, people, and programmes in two minutes. See how we bring together healthcare,
+                education, research, and community partnerships to build dignity-centred ecosystems across India.
+              </Text>
+              <Stack spacing={3} direction={{ base: "column", sm: "row" }}>
+                <Badge
+                  bg="rgba(255, 142, 213, 0.18)"
+                  color="#c2185b"
+                  borderRadius="full"
+                  px={3}
+                  py={1}
+                  fontWeight="semibold"
+                  letterSpacing="wide"
+                >
+                  Duration: 2 mins
+                </Badge>
+                <Badge
+                  bg="rgba(15, 127, 191, 0.12)"
+                  color="#0f7fbf"
+                  borderRadius="full"
+                  px={3}
+                  py={1}
+                  fontWeight="semibold"
+                  letterSpacing="wide"
+                >
+                  Story + Impact
+                </Badge>
+              </Stack>
+            </Stack>
+
+            <Box
+              bg="white"
+              borderRadius="3xl"
+              boxShadow="0 24px 60px rgba(28, 18, 52, 0.12)"
+              border="1px solid rgba(28, 18, 52, 0.08)"
+              overflow="hidden"
+              position="relative"
+            >
+              <Box
+                position="absolute"
+                inset="0"
+                bgGradient="linear(to-tr, rgba(15, 127, 191, 0.05), rgba(255, 132, 209, 0.05))"
+                pointerEvents="none"
+              />
+              <AspectRatio ratio={16 / 9}>
+                <Box
+                  as="video"
+                  src="https://res.cloudinary.com/djr9gwmih/video/upload/v1765375198/WhatsApp_Video_2025-11-30_at_18.05.19_fxuqfq.mp4"
+                  controls
+                  playsInline
+                  preload="metadata"
+                  style={{ borderRadius: "24px" }}
+                >
+                  Your browser does not support the video tag.
+                </Box>
+              </AspectRatio>
+            </Box>
+          </Grid>
         </Container>
       </Box>
 
@@ -921,7 +1048,7 @@ function AboutUs() {
                 philosophies that keep the Aatman Foundation relentlessly future-ready.
               </Text>
               <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={{ base: 4, sm: 6 }}>
-                <Stack spacing={1} align={{ base: "flex-start", sm: "center" }}>
+                <Stack spacing={1} align="flex-start" textAlign="left">
                   <Heading size="lg" color="#1565C0">
                     4+
                   </Heading>
@@ -929,15 +1056,15 @@ function AboutUs() {
                     Core leaders & advisors
                   </Text>
                 </Stack>
-                <Stack spacing={1} align={{ base: "flex-start", sm: "center" }}>
+                <Stack spacing={1} align="flex-start" textAlign="left">
                   <Heading size="lg" color="#1565C0">
-                    20+ yrs
+                    24+ yrs
                   </Heading>
                   <Text fontSize="sm" color="rgba(28, 18, 52, 0.65)">
                     Avg. domain expertise
                   </Text>
                 </Stack>
-                <Stack spacing={1} align={{ base: "flex-start", sm: "center" }}>
+                <Stack spacing={1} align="flex-start" textAlign="left">
                   <Heading size="lg" color="#1565C0">
                     Pan-India
                   </Heading>
@@ -995,6 +1122,58 @@ function AboutUs() {
               </Stack>
             </Box>
           </Flex>
+        </Container>
+      </Box>
+
+      <Box bg="rgba(232, 239, 255, 0.6)" py={{ base: 12, md: 16 }}>
+        <Container>
+          <Stack spacing={{ base: 5, md: 7 }} align="center" textAlign="center">
+            <Badge bg="white" color="brand.600" borderRadius="full" px={4} py={1} fontWeight="semibold">
+              Our recognitions
+            </Badge>
+            <Heading fontSize={{ base: "xl", md: "2xl" }} color="#1c1234">
+              Trusted collaborators in Ayurveda and research
+            </Heading>
+            <Text maxW="4xl" color="rgba(28, 18, 52, 0.75)">
+              Aatman Foundation partners with leading councils and journals to advance evidence-based Ayurveda across India.
+            </Text>
+            <Box
+              w="full"
+              overflow="hidden"
+              borderRadius="2xl"
+              bg="white"
+              border="1px solid rgba(28, 18, 52, 0.08)"
+              boxShadow="0 18px 38px rgba(28, 18, 52, 0.12)"
+              position="relative"
+              px={{ base: 4, md: 6 }}
+              py={{ base: 5, md: 6 }}
+            >
+              <Flex
+                align="center"
+                gap={{ base: 10, md: 16 }}
+                animation={marqueeAnimation}
+                w="max-content"
+              >
+                {[...marqueeLogos, ...marqueeLogos].map((logo, index) => (
+                  <Box
+                    key={`${logo.alt}-${index}`}
+                    minW={{ base: "180px", md: "220px" }}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Image
+                      src={logo.src}
+                      alt={logo.alt}
+                      h={{ base: 14, md: 16 }}
+                      objectFit="contain"
+                      filter="drop-shadow(0px 8px 16px rgba(28, 18, 52, 0.12))"
+                    />
+                  </Box>
+                ))}
+              </Flex>
+            </Box>
+          </Stack>
         </Container>
       </Box>
     </Box>

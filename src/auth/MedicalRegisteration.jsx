@@ -122,7 +122,7 @@ function MedicalRegisteration() {
 
     try {
       setIsSubmitting(true);
-      await apiClient.post("/user/ayush-registration", payload, {
+      await apiClient.post("/user/medical-professional-registration", payload, {
         skipAuthRefresh: true,
       });
 

@@ -74,7 +74,7 @@ export const useMedicalRegistrationForm = (toast) => {
     (index) => (event) => {
       const items = commaSeparatedToArray(event.target.value ?? "");
       setForm((prev) =>
-        setValueAtPath(prev, ["traningDetails", index, "trainingRole"], items),
+        setValueAtPath(prev, ["trainingDetails", index, "trainingRole"], items),
       );
     },
     [],
@@ -84,22 +84,16 @@ export const useMedicalRegistrationForm = (toast) => {
     (event) => {
       setTouched((prev) => ({ ...prev, personalPhoto: true }));
       const file = event.target.files?.[0];
-      console.log("[PersonalPhotoUpload] raw input event", {
-        hasFile: Boolean(file),
-        fileName: file?.name,
-        fileSize: file?.size,
-        fileType: file?.type,
-      });
       if (!file) {
         setForm((prev) => ({ ...prev, personalPhoto: "" }));
         setPersonalPhotoFileName("");
         return;
       }
 
-      if (file.size > 3 * 1024 * 1024) {
+      if (file.size > 5 * 1024 * 1024) {
         toast({
           title: "Image too large",
-          description: "Please upload an image smaller than 3MB.",
+          description: "Please upload an image smaller than 5MB.",
           status: "warning",
         });
         event.target.value = "";
@@ -108,21 +102,13 @@ export const useMedicalRegistrationForm = (toast) => {
 
       const reader = new FileReader();
       reader.onload = () => {
-        if (typeof reader.result === "string") {
-          console.log("[PersonalPhotoUpload] file read success", {
-            fileName: file.name,
-            dataSample: reader.result.slice(0, 30),
-            dataLength: reader.result.length,
-          });
-          setForm((prev) => ({ ...prev, personalPhoto: reader.result }));
-          setPersonalPhotoFileName(file.name);
-        }
+        setForm((prev) => ({ ...prev, personalPhoto: reader.result }));
+        setPersonalPhotoFileName(file.name);
       };
       reader.onerror = () => {
-        console.log("[PersonalPhotoUpload] file read error", reader.error);
         toast({
-          title: "Could not read file",
-          description: "Please try again with a different image.",
+          title: "Could not process image",
+          description: "Please try again with a different photo.",
           status: "error",
         });
         setForm((prev) => ({ ...prev, personalPhoto: "" }));
@@ -151,7 +137,7 @@ export const useMedicalRegistrationForm = (toast) => {
         if (safe.length > 0) return safe;
         if (path[0] === "publicationDetails") return [defaultPublication];
         if (path[0] === "previousExperience") return [defaultExperience];
-        if (path[0] === "traningDetails") return [defaultTraining];
+        if (path[0] === "trainingDetails") return [defaultTraining];
         return safe;
       }),
     );
@@ -414,30 +400,30 @@ export const useMedicalRegistrationForm = (toast) => {
         break;
       }
       case 6: {
-        const firstTraining = form.traningDetails[0] || {};
+        const firstTraining = form.trainingDetails[0] || {};
         requireField(
           isValueBlank(firstTraining.trainingName),
-          "traningDetails.0.trainingName",
+          "trainingDetails.0.trainingName",
           "Training name is required",
         );
         requireField(
           isValueBlank(firstTraining.trainingOrganizer),
-          "traningDetails.0.trainingOrganizer",
+          "trainingDetails.0.trainingOrganizer",
           "Organizer is required",
         );
         requireField(
           isValueBlank(firstTraining.trainingRole),
-          "traningDetails.0.trainingRole",
+          "trainingDetails.0.trainingRole",
           "Role is required",
         );
         requireField(
           isValueBlank(firstTraining.trainingStartDate),
-          "traningDetails.0.trainingStartDate",
+          "trainingDetails.0.trainingStartDate",
           "Start date is required",
         );
         requireField(
           isValueBlank(firstTraining.trainingEndDate),
-          "traningDetails.0.trainingEndDate",
+          "trainingDetails.0.trainingEndDate",
           "End date is required",
         );
         break;
@@ -513,9 +499,15 @@ export const useMedicalRegistrationForm = (toast) => {
         year: normalizeNumber(publication.year),
       }))
       .filter((publication) => !isObjectEmpty(publication)),
-    traningDetails: form.traningDetails
+    trainingDetails: form.trainingDetails
       .map((training) => ({
         ...training,
+        // duplicate fields to satisfy backend validator expecting legacy keys
+        traningName: training.trainingName,
+        traningOrganizer: training.trainingOrganizer,
+        traningRole: sanitizeStringArray(training.trainingRole),
+        traningStartDate: training.trainingStartDate,
+        traningEndDate: training.trainingEndDate,
         trainingRole: sanitizeStringArray(training.trainingRole),
       }))
       .filter((training) => !isObjectEmpty(training)),
@@ -526,8 +518,8 @@ export const useMedicalRegistrationForm = (toast) => {
   }), [form]);
 
   const formatTrainingRole = useCallback(
-    (index) => arrayToCommaSeparated(form.traningDetails[index]?.trainingRole),
-    [form.traningDetails],
+    (index) => arrayToCommaSeparated(form.trainingDetails[index]?.trainingRole),
+    [form.trainingDetails],
   );
 
   return {

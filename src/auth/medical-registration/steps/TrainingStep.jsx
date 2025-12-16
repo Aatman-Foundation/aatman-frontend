@@ -34,8 +34,8 @@ function TrainingStep({
       </CardHeader>
       <CardBody>
         <Stack spacing={6}>
-          {form.traningDetails.map((training, index) => {
-            const baseKey = `traningDetails.${index}`;
+          {form.trainingDetails.map((training, index) => {
+            const baseKey = `trainingDetails.${index}`;
             return (
               <Box
                 key={baseKey}
@@ -56,7 +56,7 @@ function TrainingStep({
                     <Input
                       value={training.trainingName}
                       onChange={handleNestedChange([
-                        "traningDetails",
+                        "trainingDetails",
                         index,
                         "trainingName",
                       ])}
@@ -78,7 +78,7 @@ function TrainingStep({
                     <Input
                       value={training.trainingOrganizer}
                       onChange={handleNestedChange([
-                        "traningDetails",
+                        "trainingDetails",
                         index,
                         "trainingOrganizer",
                       ])}
@@ -121,7 +121,7 @@ function TrainingStep({
                       type="date"
                       value={training.trainingStartDate}
                       onChange={handleNestedChange([
-                        "traningDetails",
+                        "trainingDetails",
                         index,
                         "trainingStartDate",
                       ])}
@@ -144,7 +144,7 @@ function TrainingStep({
                       type="date"
                       value={training.trainingEndDate}
                       onChange={handleNestedChange([
-                        "traningDetails",
+                        "trainingDetails",
                         index,
                         "trainingEndDate",
                       ])}
@@ -156,13 +156,13 @@ function TrainingStep({
                   </FormControl>
                 </SimpleGrid>
 
-                {form.traningDetails.length > 1 && (
+                {form.trainingDetails.length > 1 && (
                   <Flex justify="flex-end" mt={3}>
                     <Button
                       size="sm"
                       variant="ghost"
                       colorScheme="red"
-                      onClick={() => removeArrayItem(["traningDetails"], index)}
+                      onClick={() => removeArrayItem(["trainingDetails"], index)}
                       isDisabled={isSubmitting}
                     >
                       Remove
@@ -177,7 +177,7 @@ function TrainingStep({
             size="sm"
             alignSelf="flex-start"
             onClick={() =>
-              addArrayItem(["traningDetails"], { ...defaultTraining })
+              addArrayItem(["trainingDetails"], { ...defaultTraining })
             }
             isDisabled={isSubmitting}
           >

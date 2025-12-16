@@ -77,7 +77,7 @@ export const createInitialFormState = () => ({
       link: "",
     },
   ],
-  traningDetails: [
+  trainingDetails: [
     {
       trainingName: "",
       trainingOrganizer: "",
