@@ -74,6 +74,20 @@ export const teamMembers = [
       "Mentors innovators advancing evidence-based natural healthcare solutions",
     ],
   },
+  {
+    id: "Hari_Om_Agnihotri",
+    name: "Mr. Hari Om Agnihotri",
+    role: "Legal Advisor, Aatman Foundation",
+    image:
+      "",
+    shortBio:
+      "Mr. Hari Om Agnihotri is a seasoned legal professional and Legal Advisor to Aatman Foundation, with expertise in corporate compliance, governance, and regulatory matters. Alongside his legal practice, he is actively engaged in cultural and social development initiatives and is also an accomplished theatre and film artist, reflecting his commitment to creativity, culture, and social responsibility.",
+    longBio:
+      "Mr. Hari Om Agnihotri is a seasoned legal professional and the Legal Advisor to Aatman Foundation, bringing extensive expertise in company compliance, corporate governance, and diverse legal matters. With a strong understanding of regulatory frameworks and statutory obligations, he provides strategic legal guidance that supports institutional integrity and sustainable organizational practices. Beyond his professional legal practice, Mr. Agnihotri is deeply committed to cultural development and social upliftment. He actively promotes cultural awareness and values, and regularly participates in a wide range of societal and community development initiatives, contributing his time, knowledge, and leadership for the greater public good. Adding a unique creative dimension to his profile, Mr. Agnihotri is also an accomplished theatre and film artist. His engagement with the performing arts reflects his belief in the power of storytelling, culture, and creative expression as tools for social connection and transformation. Through his combined roles as a legal expert, cultural advocate, and artist, Mr. Hari Om Agnihotri exemplifies a multidimensional approach to professional excellence and social responsibility.",
+    highlights: [
+      ""
+    ],
+  },
 ];
 
 export default teamMembers;
