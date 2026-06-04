@@ -57,6 +57,7 @@ function MedicalRegisteration() {
     handleTrainingRoleChange,
     handlePersonalPhotoUpload,
     personalPhotoFileName,
+    personalPhotoFile,
     personalPhotoInputKey,
     addArrayItem,
     removeArrayItem,
@@ -118,13 +119,25 @@ function MedicalRegisteration() {
       return;
     }
 
+    if (!personalPhotoFile) {
+      toast({ title: "Personal photo is required", status: "warning" });
+      return;
+    }
+
     const payload = buildPayload();
+    const formData = new FormData();
+    formData.append("personalPhoto", personalPhotoFile);
+    const { personalPhoto: _photo, ...rest } = payload;
+    Object.entries(rest).forEach(([key, value]) => {
+      formData.append(
+        key,
+        typeof value === "object" && value !== null ? JSON.stringify(value) : String(value ?? "")
+      );
+    });
 
     try {
       setIsSubmitting(true);
-      await apiClient.post("/user/medical-professional-registration", payload, {
-        skipAuthRefresh: true,
-      });
+      await apiClient.post("/user/medical-professional-registration", formData);
 
       toast({
         title: "Registration submitted",
@@ -133,15 +146,20 @@ function MedicalRegisteration() {
       });
       resetForm();
     } catch (error) {
-      const description =
-        error.response?.data?.message ||
-        error.response?.data?.error ||
-        error.message ||
-        "Something went wrong while submitting the form.";
+      const errors = error.response?.data?.errors;
+      const firstError = Array.isArray(errors) && errors.length > 0
+        ? Object.entries(errors[0]).map(([field, msg]) => `${field}: ${msg}`).join(", ")
+        : null;
+      const description = firstError
+        || error.response?.data?.message
+        || error.message
+        || "Something went wrong while submitting the form.";
       toast({
         title: "Submission failed",
         description,
         status: "error",
+        duration: 8000,
+        isClosable: true,
       });
     } finally {
       setIsSubmitting(false);

@@ -1,5 +1,5 @@
-// src/components/UploadResearchModal.jsx
 import React, { useRef, useState } from "react";
+import apiClient from "../api/client.js";
 import {
   Box,
   Button,
@@ -75,6 +75,8 @@ export default function UploadResearchModal() {
     setFiles([]);
   };
 
+  const [isUploading, setIsUploading] = useState(false);
+
   const handleSubmit = async (e) => {
     e?.preventDefault?.();
 
@@ -83,29 +85,36 @@ export default function UploadResearchModal() {
       return;
     }
     if (files.length === 0) {
-      toast({ status: "warning", title: "Please attach at least one file" });
+      toast({ status: "warning", title: "Please attach a PDF file" });
       return;
     }
 
-    // Build FormData for your API
     const formData = new FormData();
     formData.append("title", title.trim());
     formData.append("description", desc.trim());
     formData.append("category", category);
     formData.append("isPublic", String(isPublic));
-    files.forEach((f) => formData.append("files", f));
+    formData.append("pdf", files[0]);
 
-    // TODO: call your API here:
-    // await fetch("/api/research/upload", { method: "POST", body: formData })
-
-    toast({
-      status: "success",
-      title: "Upload initiated",
-      description: `${files.length} file(s) queued`,
-    });
-
-    onClose();
-    resetForm();
+    setIsUploading(true);
+    try {
+      await apiClient.post("/user/research", formData);
+      toast({
+        status: "success",
+        title: "Research uploaded",
+        description: "Your file has been saved successfully.",
+      });
+      onClose();
+      resetForm();
+    } catch (err) {
+      toast({
+        status: "error",
+        title: "Upload failed",
+        description: err?.response?.data?.message || "Please try again.",
+      });
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -198,12 +207,12 @@ export default function UploadResearchModal() {
                   Drag & drop files here
                 </Text>
                 <Text fontSize="sm" color="gray.600">
-                  or click to browse (PDF, DOCX, images…)
+                  or click to browse — PDF only
                 </Text>
                 <Input
                   ref={fileInputRef}
                   type="file"
-                  multiple
+                  accept="application/pdf"
                   display="none"
                   onChange={(e) => onSelectFiles(e.target.files)}
                 />
@@ -260,7 +269,7 @@ export default function UploadResearchModal() {
               >
                 Cancel
               </Button>
-              <Button colorScheme="accent" onClick={handleSubmit}>
+              <Button colorScheme="accent" onClick={handleSubmit} isLoading={isUploading}>
                 Upload
               </Button>
             </HStack>

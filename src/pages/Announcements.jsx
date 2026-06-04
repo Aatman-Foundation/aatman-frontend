@@ -1,72 +1,51 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import {
-  Box,
-  Container,
-  Heading,
-  Text,
+  AspectRatio,
   Badge,
-  SimpleGrid,
-  Stack,
-  HStack,
-  Flex,
-  Icon,
+  Box,
   Button,
+  Center,
+  Container,
+  Flex,
+  HStack,
+  Heading,
+  Icon,
+  Image,
+  SimpleGrid,
+  Spinner,
+  Stack,
+  Text,
 } from "@chakra-ui/react";
-import { LuCalendarDays, LuMapPin, LuMegaphone } from "react-icons/lu";
+import { LuCalendarDays, LuMegaphone, LuArrowRight } from "react-icons/lu";
 import { Link as RouterLink } from "react-router-dom";
-
-const announcements = [
-  {
-    id: 1,
-    title: "Launch: Tulsi+ Lung Guard Syrup",
-    summary:
-      "Our flagship respiratory formulation is now available for clinics with QR-enabled batch reports and patient education leaflets.",
-    date: "From 18 March 2025",
-    location: "PAN India Distribution",
-    status: "New",
-  },
-  {
-    id: 2,
-    title: "Clinical Residency on Adaptogens",
-    summary:
-      "Two-day immersion for doctors and therapists exploring adaptogenic stacks, dosage personalisation, and case documentation.",
-    date: "Apply by 30 April 2025",
-    location: "Lucknow Formulation Lab",
-    status: "Enroll",
-  },
-  {
-    id: 3,
-    title: "Traceability Dashboard 2.0",
-    summary:
-      "We have refreshed our digital dashboard with soil metrics, farmer stories, and lab data accessible via product QR codes.",
-    date: "Live from 05 April 2025",
-    location: "Online",
-    status: "Update",
-  },
-  {
-    id: 4,
-    title: "Practitioner Research Collective",
-    summary:
-      "Monthly working group to co-author whitepapers on herbal interventions for PCOS, long-COVID, and autoimmune conditions.",
-    date: "April – December 2025",
-    location: "Hybrid (Virtual + Lab)",
-    status: "Apply",
-  },
-];
+import { fetchAnnouncements } from "../api/announcements.js";
 
 function Announcements() {
+  const [announcements, setAnnouncements] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchAnnouncements()
+      .then(setAnnouncements)
+      .catch(() => setError("Failed to load announcements. Please try again later."))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <Box>
       <Box bgGradient="linear(to-r, brand.200, accent.200)" color="gray.900">
         <Container py={{ base: 12, md: 18 }}>
           <Stack spacing={5} textAlign="center" maxW="3xl" mx="auto">
             <Badge colorScheme="accent" borderRadius="full" px={4} py={1} alignSelf="center">
-              Formulation news
+              Latest updates
             </Badge>
-            <Heading fontSize={{ base: "3xl", md: "4xl" }}>Releases, residencies & research calls</Heading>
+            <Heading fontSize={{ base: "3xl", md: "4xl" }}>
+              Releases, residencies & research calls
+            </Heading>
             <Text fontSize={{ base: "md", md: "lg" }}>
-              Stay informed on product drops, practitioner programmes, and collaborative research opportunities from the
-              Aatman Botanicals lab.
+              Stay informed on product drops, practitioner programmes, and collaborative research
+              opportunities from the Aatman Botanicals lab.
             </Text>
             <Button
               as={RouterLink}
@@ -83,32 +62,85 @@ function Announcements() {
       </Box>
 
       <Container py={{ base: 12, md: 16 }}>
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 8, md: 10 }}>
-          {announcements.map((item) => (
-            <Stack key={item.id} spacing={5} bg="white" borderRadius="2xl" boxShadow="xl" p={{ base: 6, md: 7 }}>
-              <HStack spacing={3}>
-                <Badge colorScheme="brand" borderRadius="full" px={3} py={1} textTransform="capitalize">
-                  {item.status}
-                </Badge>
-                <Text fontSize="sm" letterSpacing="widest" textTransform="uppercase" color="gray.500">
-                  Engagement {item.id.toString().padStart(2, "0")}
+        {loading ? (
+          <Center py={20}>
+            <Spinner size="xl" color="brand.500" />
+          </Center>
+        ) : error ? (
+          <Center py={20}>
+            <Text color="red.500">{error}</Text>
+          </Center>
+        ) : announcements.length === 0 ? (
+          <Center py={20}>
+            <Text color="gray.500">No announcements at the moment. Check back soon.</Text>
+          </Center>
+        ) : (
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={{ base: 4, md: 6 }}>
+            {announcements.map((item, index) => (
+              <Stack
+                key={item._id}
+                spacing={0}
+                bg="white"
+                borderRadius="xl"
+                boxShadow="md"
+                overflow="hidden"
+              >
+                <AspectRatio ratio={16 / 9}>
+                  {item.imageUrl ? (
+                    <Image src={item.imageUrl} alt={item.title} objectFit="cover" />
+                  ) : (
+                    <Box bgGradient="linear(to-br, brand.200, accent.200)" display="flex" alignItems="center" justifyContent="center">
+                      <Icon as={LuMegaphone} boxSize={8} color="brand.600" opacity={0.4} />
+                    </Box>
+                  )}
+                </AspectRatio>
+                <Stack spacing={3} p={4}>
+                <HStack spacing={2}>
+                  <Badge colorScheme="brand" borderRadius="full" px={2} fontSize="xs" textTransform="capitalize">
+                    {item.audience || "General"}
+                  </Badge>
+                  <Text fontSize="xs" textTransform="uppercase" color="gray.400" letterSpacing="wide">
+                    #{String(index + 1).padStart(2, "0")}
+                  </Text>
+                </HStack>
+                <Heading size="sm">{item.title}</Heading>
+                <Text color="gray.600" noOfLines={2} fontSize="sm">
+                  {item.description}
                 </Text>
-              </HStack>
-              <Heading size="md">{item.title}</Heading>
-              <Text color="gray.700">{item.summary}</Text>
-              <Stack spacing={2} color="gray.600" fontWeight="medium">
-                <Flex align="center" gap={2}>
-                  <Icon as={LuCalendarDays} color="brand.500" />
-                  <Text>{item.date}</Text>
-                </Flex>
-                <Flex align="center" gap={2}>
-                  <Icon as={LuMapPin} color="brand.500" />
-                  <Text>{item.location}</Text>
-                </Flex>
+                {item.eventDate && (
+                  <Flex align="center" gap={1} color="brand.600">
+                    <Icon as={LuCalendarDays} boxSize={3} />
+                    <Text fontSize="xs" fontWeight="medium">
+                      {new Date(item.eventDate).toLocaleString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Text>
+                  </Flex>
+                )}
+                {item.venue && (
+                  <Text fontSize="xs" color="gray.500">{item.venue}</Text>
+                )}
+                <Button
+                  as={RouterLink}
+                  to={`/announcements/${item._id}`}
+                  variant="ghost"
+                  colorScheme="brand"
+                  rightIcon={<LuArrowRight />}
+                  alignSelf="flex-start"
+                  size="xs"
+                  px={0}
+                >
+                  Read more
+                </Button>
+                </Stack>
               </Stack>
-            </Stack>
-          ))}
-        </SimpleGrid>
+            ))}
+          </SimpleGrid>
+        )}
 
         <Stack
           direction={{ base: "column", md: "row" }}
@@ -122,10 +154,10 @@ function Announcements() {
           boxShadow="lg"
         >
           <Stack spacing={2} textAlign={{ base: "center", md: "left" }}>
-              <Heading size="md">Share your launch or clinical insight</Heading>
+            <Heading size="md">Share your launch or clinical insight</Heading>
             <Text color="gray.600">
-              Email shashank@aatmanfoundation.in with your case summaries, event listings, or partnership ideas. The
-              bulletin is refreshed every Friday.
+              Email shashank@aatmanfoundation.in with your case summaries, event listings, or
+              partnership ideas. The bulletin is refreshed every Friday.
             </Text>
           </Stack>
           <Button as="a" href="mailto:shashank@aatmanfoundation.in" colorScheme="accent">
