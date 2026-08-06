@@ -21,6 +21,7 @@ export const useMedicalRegistrationForm = (toast) => {
   const [touched, setTouched] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [personalPhotoFileName, setPersonalPhotoFileName] = useState("");
+  const [personalPhotoFile, setPersonalPhotoFile] = useState(null);
   const [personalPhotoInputKey, setPersonalPhotoInputKey] = useState(
     () => Date.now(),
   );
@@ -100,10 +101,11 @@ export const useMedicalRegistrationForm = (toast) => {
         return;
       }
 
+      setPersonalPhotoFile(file);
+      setPersonalPhotoFileName(file.name);
       const reader = new FileReader();
       reader.onload = () => {
         setForm((prev) => ({ ...prev, personalPhoto: reader.result }));
-        setPersonalPhotoFileName(file.name);
       };
       reader.onerror = () => {
         toast({
@@ -113,6 +115,7 @@ export const useMedicalRegistrationForm = (toast) => {
         });
         setForm((prev) => ({ ...prev, personalPhoto: "" }));
         setPersonalPhotoFileName("");
+        setPersonalPhotoFile(null);
       };
       reader.readAsDataURL(file);
     },
@@ -457,6 +460,7 @@ export const useMedicalRegistrationForm = (toast) => {
     setTouched({});
     setActiveStep(0);
     setPersonalPhotoFileName("");
+    setPersonalPhotoFile(null);
     setPersonalPhotoInputKey(Date.now());
   }, []);
 
@@ -537,6 +541,7 @@ export const useMedicalRegistrationForm = (toast) => {
     handleTrainingRoleChange,
     handlePersonalPhotoUpload,
     personalPhotoFileName,
+    personalPhotoFile,
     personalPhotoInputKey,
     addArrayItem,
     removeArrayItem,

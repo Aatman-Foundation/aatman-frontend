@@ -174,11 +174,7 @@ function ProfilePage() {
       const formData = new FormData();
       formData.append("profilePicture", file);
 
-      const response = await apiClient.post("/user/update-profile-picture", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await apiClient.post("/user/update-profile-picture", formData);
 
       const description =
         response.data?.message ||

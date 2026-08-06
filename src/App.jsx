@@ -11,6 +11,7 @@ import OthersRegisteration from "./auth/OthersRegisteration.jsx";
 import LoginPage from "./auth/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
+import AnnouncementDetail from "./pages/AnnouncementDetail.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import Layout from "./components/Layout.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
@@ -32,6 +33,7 @@ function App() {
               <Route path="/announcements" element={<Announcements />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/contact" element={<ContactUs />} />
+              <Route path="/announcements/:id" element={<AnnouncementDetail />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Route>
             <Route path="/register" element={<Registration />} />

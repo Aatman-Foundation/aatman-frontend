@@ -152,6 +152,7 @@ function OthersRegisteration() {
   });
   const [form, setForm] = useState(createInitialForm);
   const [photoInputKey, setPhotoInputKey] = useState(() => Date.now());
+  const [passPortPhotoFile, setPassPortPhotoFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [touched, setTouched] = useState({});
@@ -240,6 +241,7 @@ function OthersRegisteration() {
         return;
       }
 
+      setPassPortPhotoFile(file);
       const reader = new FileReader();
       reader.onload = () => {
         setForm((prev) => ({ ...prev, passPortPhoto: reader.result }));
@@ -251,6 +253,7 @@ function OthersRegisteration() {
           status: "error",
         });
         setForm((prev) => ({ ...prev, passPortPhoto: "" }));
+        setPassPortPhotoFile(null);
       };
       reader.readAsDataURL(file);
     },
@@ -465,6 +468,7 @@ function OthersRegisteration() {
     setForm(createInitialForm());
     setTouched({});
     setPhotoInputKey(Date.now());
+    setPassPortPhotoFile(null);
     if (showToast) {
       toast({ title: "Form reset.", status: "info" });
     }
@@ -477,15 +481,25 @@ function OthersRegisteration() {
       return;
     }
 
+    if (!passPortPhotoFile) {
+      toast({ title: "Personal photo is required", status: "warning" });
+      return;
+    }
+
     const payload = buildPayload();
+    const formData = new FormData();
+    formData.append("personalPhoto", passPortPhotoFile);
+    const { personalPhoto: _photo, ...rest } = payload;
+    Object.entries(rest).forEach(([key, value]) => {
+      formData.append(
+        key,
+        typeof value === "object" && value !== null ? JSON.stringify(value) : String(value ?? "")
+      );
+    });
 
     try {
       setIsSubmitting(true);
-      await apiClient.post(
-        "/user/non-medical-professional-registration",
-        payload,
-        { skipAuthRefresh: true },
-      );
+      await apiClient.post("/user/non-medical-professional-registration", formData);
       toast({
         title: "Registration submitted",
         description: "We received your registration details.",

@@ -50,10 +50,13 @@ export const teamMembers = [
   {
     id: "awadhesh_srivastava",
     name: "Vaidya Awadhesh Kumar Srivastava",
-    designation: null,
-    bio: [
+    role: "Trustee & General Secretary",
+    image: "",
+    shortBio:
       "Vaidya Awadhesh Kumar Srivastava is a respected Ayurveda professional with over 45 years of service across education, government policy, and institutional governance.",
-      "His experience spans curriculum design, policy formulation, and national Ayurveda initiatives, and he continues to guide Aatman Foundation's training and development programs in alignment with National AYUSH Mission objectives.",
+    longBio: "His vast experience spans curriculum design, policy formulation, and implementation of national Ayurveda initiatives. He continues to guide Aatman Foundation in its Ayurveda-linked training and development programs, ensuring alignment with the National AYUSH Mission's objectives and holistic health vision.",
+    highlights: [
+      ""
     ],
   },
   {

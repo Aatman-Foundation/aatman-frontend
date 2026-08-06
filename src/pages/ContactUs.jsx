@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { FiMail, FiMapPin, FiPhone } from "react-icons/fi";
 import { LuClock, LuMessageCircle } from "react-icons/lu";
+import apiClient from "../api/client.js";
 
 const contactChannels = [
   {
@@ -50,22 +51,37 @@ function ContactUs() {
     organisation: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    toast({
-      title: "Message sent",
-      description: "Our herbal care team will respond within two working days.",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-    setFormValues({ name: "", email: "", organisation: "", message: "" });
+    setIsSubmitting(true);
+    try {
+      await apiClient.post("/public/contact", formValues);
+      toast({
+        title: "Message sent",
+        description: "Our team will respond within two working days.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      setFormValues({ name: "", email: "", organisation: "", message: "" });
+    } catch {
+      toast({
+        title: "Failed to send message",
+        description: "Please try again or email us directly.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -157,7 +173,7 @@ function ContactUs() {
                   onChange={handleChange}
                 />
               </FormControl>
-              <Button type="submit" colorScheme="accent" size="lg" alignSelf="flex-start">
+              <Button type="submit" colorScheme="accent" size="lg" alignSelf="flex-start" isLoading={isSubmitting}>
                 Send message
               </Button>
             </Stack>
