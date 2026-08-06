@@ -62,6 +62,7 @@ function ContactUs() {
     event.preventDefault();
     setIsSubmitting(true);
     try {
+
       await apiClient.post("/public/contact", formValues);
       toast({
         title: "Message sent",
@@ -70,6 +71,7 @@ function ContactUs() {
         duration: 3000,
         isClosable: true,
       });
+      
       setFormValues({ name: "", email: "", organisation: "", message: "" });
     } catch {
       toast({
